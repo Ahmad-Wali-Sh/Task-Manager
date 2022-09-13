@@ -224,7 +224,7 @@ export default function GeneralDetails(props) {
           <span className="slider round"></span>
         </label>
       </div>
-      <div className="row mt-4">
+      <div className="row mt-2">
         <div className="col-2">Payment cleared</div>
         <label className="switch">
           <input
