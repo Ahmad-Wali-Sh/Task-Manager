@@ -11,6 +11,7 @@ import OnlineSupport from "./subcomponents/OnlineSupport";
 import ChangeLocation from "./subcomponents/ChangeLocation";
 import LogMessage from "./subcomponents/LogMessage";
 import { Details, MainDetails } from "./subcomponents/Details";
+import Members from "./subcomponents/Members";
 import Data from "./services"
 
 
@@ -181,11 +182,13 @@ function getList() {
                         </h5>
                         <button
                           type="button"
-                          className="close "
+                          className="close"
                           data-bs-dismiss="modal"
                           aria-label="Close"
                         >
-                          <i class="fa-duotone fa-circle-xmark close-icon"></i>
+                          
+                            <i className="fa-duotone fa-circle-xmark close-icon"></i>
+                        
                         </button>
                       </div>
                       <div className="modal-body">
@@ -414,8 +417,18 @@ function getList() {
                             {/* END LOG NOTE AND MESSAGE */}
 
                           </div>
+                          <div
+                            class="tab-pane fade"
+                            id="profile-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="profile-tab"
+                            tabindex="0"
+                          >
+                            <Members />
+                          </div>
                         </div>
                       </div>
+                      
                       <div className="modal-footer">
                         {/* <button
                           type="button"

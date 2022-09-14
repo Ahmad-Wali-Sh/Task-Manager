@@ -32,7 +32,8 @@ export function MainDetails(props) {
                     </div>
                     <div className="buttons">
                         <button className="btn tools iconsize">
-                            <i className="fa-solid fa-list-check "></i> {props.number}
+                            <i className="fa-solid fa-list-check"></i> 
+                            {props.number}
                         </button>
                         {/* <button className="btn">
                   <i className="fa-solid fa-ellipsis-vertical"></i>
@@ -41,8 +42,9 @@ export function MainDetails(props) {
                     Dropdown button
                   </button> */}
                         <div className="dropdown">
+                            {/* className="dropdown-toggle" */}
                             <button
-                                className="btn tools dropdown-toggle"
+                                className="btn tools"
                                 type="button"
                                 id="dropdown1"
                                 data-bs-toggle="dropdown"
