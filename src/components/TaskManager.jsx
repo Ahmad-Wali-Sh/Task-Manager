@@ -12,7 +12,8 @@ import ChangeLocation from "./subcomponents/ChangeLocation";
 import LogMessage from "./subcomponents/LogMessage";
 import { Details, MainDetails } from "./subcomponents/Details";
 import Members from "./subcomponents/Members";
-import Data from "./services"
+import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
+// import { GetUrl } from "./services"
 
 
 export default function TaskManager(props) {
@@ -35,7 +36,7 @@ export default function TaskManager(props) {
     switch: false,
   };
 
-  
+
   const url = process.env.REACT_APP_CONTRACT;
   // const token = useContext(Context);
   const [contract, setContract] = useState(contractState);
@@ -49,14 +50,23 @@ export default function TaskManager(props) {
     setProject({ selectedProject: event.target.value });
     console.log(event.target.value);
   }
+  //   const TASK_URL = process.env.REACT_APP_TASK
+  // const token1 = '8baabc24a9c1a2f3c26d4b7775d45c12f6e4d67c'
 
-  
+  //   axios.get(TASK_URL, {
+  //     headers: {
+  //         Authorization: token1
+  //     }
+  // }).then (res => {
+  //     console.log(res.data.results)
+  // })
+  // GetUrl();
 
   function handleSwitch(e) {
     // console.log(switchState)
     // setSwitchState({
-      //   ...switchState,
-      //   switch: !e.target.value
+    //   ...switchState,
+    //   switch: !e.target.value
     // })
     // console.log({switchState})
     let isChecked = e.target.checked;
@@ -91,48 +101,74 @@ export default function TaskManager(props) {
     }
   };
 
-function getList() {
-    return fetch('http://192.168.60.55:8000/api/taskmanager/task/')
-        .then((data) => data.json())
-}
-  const [list, setList] = React.useState([])
+
+  const TASK_URL = process.env.REACT_APP_TASK
+  const token1 = '8baabc24a9c1a2f3c26d4b7775d45c12f6e4d67c'
+
+  const [contenter, setContenter] = React.useState([])
+
+
+  const TroubleArray = contenter.map(item => item.project.name == "Troubleshoot" && <MainDetails name={item.title} internet={item.contract.packages} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
+  const OnlineArray = contenter.map(item => item.project.name == "Online Support" && <MainDetails name={item.title} internet={item.contract.packages} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
+  const InstallArray = contenter.map(item => item.project.name == "Installation" && <MainDetails name={item.title} internet={item.contract.packages} avatar={item.assigned} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
+  const ChangeArray = contenter.map(item => item.project.name == "Change Location" && <MainDetails name={item.title} internet={item.contract.packages} avatar={item.assigned} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
+
 
   React.useEffect(() => {
-    let mounted = true;
-    getList()
-        .then(items => {
-            if(mounted) {
-                setList(items)
-            }
-        })
-        return () => mounted = false;
-}, [])
+    axios.get(TASK_URL, {
+      headers: {
+        Authorization: token1
+      }
+    }).then(res => {
+      setContenter(res.data.results)
+    })
+
+
+  }, [])
+
+
+  // function getList() {
+  //     return fetch('http://192.168.60.55:8000/api/taskmanager/task/')
+  //         .then((data) => data.json())
+  // }
+  //   const [list, setList] = React.useState([])
+
+  //   React.useEffect(() => {
+  //     let mounted = true;
+  //     getList()
+  //         .then(items => {
+  //             if(mounted) {
+  //                 setList(items)
+  //             }
+  //         })
+  //         return () => mounted = false;
+  // }, [])
 
 
   const [content, setContent] = useState([])
 
 
-  useEffect(() => {
-    fetch('http://192.168.60.55:8000/api/taskmanager/task/')
-      .then((res) => res.json())
-      .then((resJson) => {
-        const data = JSON.parse(resJson)
-        setContent(data)
-      })
-  }, [])
-  
+  // useEffect(() => {
+  //   fetch('http://192.168.60.55:8000/api/taskmanager/task/')
+  //     .then((res) => res.json())
+  //     .then((resJson) => {
+  //       const data = JSON.parse(resJson)
+  //       setContent(data)
+  //     })
+  // }, [])
+
   // useEffect(() => {
   //   const renderProjectForm = async () => {
-    //     setProject({
-      //       ...project,
-      //       selectedProject: projectRef.current.value
-      //     })
-      //   };
-      //   renderProjectForm();
-      // }, []);
-      
-      return (
-        <div>
+  //     setProject({
+  //       ...project,
+  //       selectedProject: projectRef.current.value
+  //     })
+  //   };
+  //   renderProjectForm();
+  // }, []);
+
+  return (
+    <div>
       <div className="content-wrapper">
         <section className="content-header">
           <div className="container-fluid">
@@ -154,17 +190,17 @@ function getList() {
             <div className="row mb-5">
               <div className="col-10 offset-md-1">
                 <div className="flexer">
-                {content.map(item => <h1>{content.results.title}</h1>)}
-                <p className="float-left tasktitle">Tasks&nbsp;</p>
-                <button
-                  type="button"
-                  name="addTask"
-                  className="btn btn-secondary rounded-circle circle-width"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addTaskModal"
+                  {content.map(item => <h1>{content.results.title}</h1>)}
+                  <p className="float-left tasktitle">Tasks&nbsp;</p>
+                  <button
+                    type="button"
+                    name="addTask"
+                    className="btn btn-secondary rounded-circle circle-width"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addTaskModal"
                   >
-                  <i className="fa-solid fa-plus "></i>
-                </button>
+                    <i className="fa-solid fa-plus "></i>
+                  </button>
                 </div>
                 <div
                   className="modal fade"
@@ -186,9 +222,9 @@ function getList() {
                           data-bs-dismiss="modal"
                           aria-label="Close"
                         >
-                          
-                            <i className="fa-duotone fa-circle-xmark close-icon"></i>
-                        
+
+                          <i className="fa-duotone fa-circle-xmark close-icon"></i>
+
                         </button>
                       </div>
                       <div className="modal-body">
@@ -428,7 +464,7 @@ function getList() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="modal-footer">
                         {/* <button
                           type="button"
@@ -452,21 +488,20 @@ function getList() {
               </div>
             </div>
             <div className="details">
-            <Details title="Installation" className="spacer">
-              <MainDetails name="INSO Herat" internet="6Mb-24h Dedicated" status="Urgent" number="0/3" badge="danger" avatar1="/images/avatar1.jpeg" avatar2="/images/avatar2.jpeg" avatar3="/images/avatar3.jpeg"/>
-              <MainDetails name="Mohammad Ishaaq Yamayee" internet="3Mb-12h Shared" status="Normal" number="2/4" badge="primary" avatar2="/images/avatar2.jpeg" avatar1="/images/avatar1.jpeg" />
-            </Details>
 
-            <Details title="Troubleshoot" className="spacer">
-              <MainDetails name="Hafiz Morady" internet="7Mb-24h Dedicated" status="Normal" number="2/5" badge="primary" avatar1="/images/avatar1.jpeg" avatar2="/images/avatar2.jpeg"/>
-              <MainDetails name="CRS NGO" internet="10Mb-24h Dedicated" status="Complete" number="5/5" badge="success" avatar3="/images/avatar3.jpeg" avatar1="/images/avatar1.jpeg" avatar2="/images/avatar2.jpeg"/>
-            </Details>           
-            <Details title="Online Support" className="spacer">
-              <MainDetails name="Mored Arian" internet="5Mb-24h Dedicated" status="Normal" number="1/2" badge="primary" avatar3="/images/avatar3.jpeg" avatar1="/images/avatar1.jpeg" avatar2="/images/avatar2.jpeg"/>
-              <MainDetails name="Nawid Rasooly" internet="2Mb-12h Dedicated" status="Pending" number="1/2" badge="warning" avatar3="/images/avatar3.jpeg" avatar1="/images/avatar1.jpeg" avatar2="/images/avatar2.jpeg" avatar4="/images/avatar4.jpg"/>
-            </Details>
-            </div> 
-                        
+              {(contenter.title == "Installation" ? <Details title="Installation" className="spacer">{InstallArray}</Details> : <div></div>)}
+
+              <Details title="Troubleshoot" className="spacer">{TroubleArray}</Details>
+              <Details title="Online Support" className="spacer">
+                {/* <MainDetails name="Mored Arian" internet="5Mb-24h Dedicated" status="Normal" number="1/2" badge="primary" avatar3="/images/avatar3.jpeg" avatar1="/images/avatar1.jpeg" avatar2="/images/avatar2.jpeg"/>
+              <MainDetails name="Nawid Rasooly" internet="2Mb-12h Dedicated" status="Pending" number="1/2" badge="warning" avatar3="/images/avatar3.jpeg" avatar1="/images/avatar1.jpeg" avatar2="/images/avatar2.jpeg" avatar4="/images/avatar4.jpg"/> */}
+                {OnlineArray}
+              </Details>
+              <Details title="Change Location" className="spacer">
+                {ChangeArray}
+              </Details>
+            </div>
+
 
           </div>
         </section>

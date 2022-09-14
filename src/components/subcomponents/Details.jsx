@@ -1,6 +1,8 @@
 import React from "react"
 
 export function MainDetails(props) {
+
+    
     return (
         <div className="cardItem">
             <div className="row">
@@ -12,6 +14,8 @@ export function MainDetails(props) {
                     <div className="flexing">
 
                     <div className="image--flex">
+
+                        {props.avatars}
                        { props.avatar1 && <img
                             src={props.avatar1}
                             className="avatar"
@@ -28,11 +32,23 @@ export function MainDetails(props) {
                             src={props.avatar4}
                             className="avatar"
                         /> }
+                       { props.avatar5 && <img
+                            src={props.avatar4}
+                            className="avatar"
+                        /> }
+                       { props.avatar6 && <img
+                            src={props.avatar4}
+                            className="avatar"
+                        /> }
+                       { props.avatar7 && <img
+                            src={props.avatar4}
+                            className="avatar"
+                        /> }
                         
                     </div>
                     <div className="buttons">
                         <button className="btn tools iconsize">
-                            <i className="fa-solid fa-list-check"></i> 
+                            <i className="fa-solid fa-list-check px-1"></i> 
                             {props.number}
                         </button>
                         {/* <button className="btn">
@@ -74,17 +90,17 @@ export function MainDetails(props) {
                 {/* Button */}
                 <div className="taskBottom">
                     <p className="cardText bold">
-                        <i className="fa-solid fa-clock"></i> Today
+                        <i className="fa-solid fa-clock"></i> {props.time}
                     </p>
                     <h6>
-                        <span className={`badge mt-1 bg-${props.badge}`}>{props.status}</span>
+                        <span className={`badge mt-1 bg-${props.status == "Normal" ? "primary" : props.status == "pending" ? "warning" : "danger" }`}>{props.status}</span>
                     </h6>
                 </div>
             </div>
         </div>
     )
-}
-
+                }
+   
 
 export function Details (props) {
     return (
@@ -122,3 +138,6 @@ export function Details (props) {
         </>
     )
 }
+                
+
+
