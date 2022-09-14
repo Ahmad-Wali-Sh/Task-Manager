@@ -108,11 +108,10 @@ export default function TaskManager(props) {
   const [contenter, setContenter] = React.useState([])
 
 
-  const TroubleArray = contenter.map(item => item.project.name == "Troubleshoot" && <MainDetails name={item.title} internet={item.contract.packages} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
-  const OnlineArray = contenter.map(item => item.project.name == "Online Support" && <MainDetails name={item.title} internet={item.contract.packages} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
+  const TroubleArray = contenter.map(item => item.project.name == "Troubleshoot" && <MainDetails {...item} />)
+  const OnlineArray = contenter.map(item => item.project.name == "Online Support" && <MainDetails name={item.title} internet={item.contract.contract_no} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
   const InstallArray = contenter.map(item => item.project.name == "Installation" && <MainDetails name={item.title} internet={item.contract.packages} avatar={item.assigned} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
-  const ChangeArray = contenter.map(item => item.project.name == "Change Location" && <MainDetails name={item.title} internet={item.contract.packages} avatar={item.assigned} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
-
+  const ChangeArray = contenter.map(item => item.project.name == "Change Location" && <MainDetails name={item.title} internet={item.contract.contract_no} avatar={item.assigned} status={item.tag.name} time={new Date(item.deadline).toDateString().slice(0,10)} avatars={item.assigned.map(avatar => <img src={avatar.avatar} className="avatar" />)} />)
 
   React.useEffect(() => {
     axios.get(TASK_URL, {
@@ -202,6 +201,7 @@ export default function TaskManager(props) {
                     <i className="fa-solid fa-plus "></i>
                   </button>
                 </div>
+               
                 <div
                   className="modal fade"
                   id="addTaskModal"
